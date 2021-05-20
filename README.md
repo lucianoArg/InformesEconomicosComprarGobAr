@@ -5,4 +5,6 @@ Con el fin de evitar la elaboración manual de cuadros a partir de las planillas
 
 Es una macro interna, para uso particular, por lo que no está terminada para uso público, pero se puede tomar la idea.
 
+Los Módulos nombrados con NO, no están terminados.
+
 Dejé de desarrollarla porque cambié de área de trabajo.
