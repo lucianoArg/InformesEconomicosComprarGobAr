@@ -1,0 +1,87 @@
+Sub PegoJerarquia()
+
+'ESTA MACRO NO ESTÁ TERMINADAAAAAAA
+
+' Pego Formula =SI(J10=0;"No cotiza";JERARQUIA(J10;($J10;$P10;$V10;$AB10;$AH10; _
+$AN10;$AT10;$AZ10;$BF10;$BL10;$BR10;$BX10;$CD10;$CJ10;$CP10;$CV10;$DB10;$DH10;$DN10);1)) _
+moviendo 6 columnas desde J hasta la última columna de los oferentes
+
+'    ActiveCell.FormulaR1C1 = _
+        "=IF(RC[-4]=0,""No cotiza"",RANK(RC[-4],(RC10,RC16,RC22,RC28,RC34,RC40,RC46,RC52, _
+        RC58,RC64,RC70,RC76,RC82,RC88,RC94,RC100,RC106,RC112,RC118),1))"
+'    Range("N11").Select
+
+Dim cantofertas As Byte
+
+cantofertas = [H1].Value
+Range("J10").Select
+rangoparajerarquia = "$J10"
+valoracomparar = "$J10"
+    
+For i = 2 To cantofertas
+        ActiveCell.Offset(0, 6).Select
+        rangoparajerarquia = rangoparajerarquia + "," + ActiveCell.Address(True, False)
+Next
+    
+Range("N10").Select
+For i = 1 To cantofertas
+'    ActiveCell.Formula = "=IF(" & valoracomparar & "=0,0,RANK(" & valoracomparar & ",(" & _
+    rangojerarquia & "),1))"
+'    MsgBox "=IF(" & valoracomparar & "=0,""No cotiza"",RANK(" & _
+        valoracomparar & ",(" & rangoparajerarquia & "),1))"
+' esta funca    ActiveCell.Formula = "=IF(" & valoracomparar & "=0,""No cotiza"",RANK(" & _
+        valoracomparar & ",(" & rangoparajerarquia & "),1))"
+    
+    ActiveCell.FormulaR1C1 = "=IF(RC[-4]=0,""No cotiza"",RANK(RC[-4],(" & rangoparajerarquia & "),1))"
+    ActiveCell.Offset(0, 2).Select
+    valoracomparar = ActiveCell.Address(True, False)
+    ActiveCell.Offset(0, 4).Select
+Next
+    
+
+End Sub
+
+Sub PegoJerarquiaRC()
+
+'ESTA MACRO NO ESTÁ TERMINADAAAAAAA
+
+' Pego Formula =SI(J10=0;"No cotiza";JERARQUIA(J10;($J10;$P10;$V10;$AB10;$AH10; _
+$AN10;$AT10;$AZ10;$BF10;$BL10;$BR10;$BX10;$CD10;$CJ10;$CP10;$CV10;$DB10;$DH10;$DN10);1)) _
+moviendo 6 columnas desde J hasta la última columna de los oferentes
+
+'    ActiveCell.FormulaR1C1 = _
+        "=IF(RC[-4]=0,""No cotiza"",RANK(RC[-4],(RC10,RC16,RC22,RC28,RC34,RC40,RC46,RC52, _
+        RC58,RC64,RC70,RC76,RC82,RC88,RC94,RC100,RC106,RC112,RC118),1))"
+'    Range("N11").Select
+
+Dim cantofertas As Byte
+
+cantofertas = [H1].Value
+Range("J10").Select
+rangoparajerarquia = "RC10"
+Nrocolumna = 10
+    
+For i = 2 To cantofertas
+        ActiveCell.Offset(0, 6).Select
+'        MsgBox rangoparajerarquia
+        rangoparajerarquia = rangoparajerarquia & "," & "RC" & Nrocolumna + 6
+        Nrocolumna = Nrocolumna + 6
+      
+Next
+    
+Range("N10").Select
+For i = 1 To cantofertas
+'    ActiveCell.Formula = "=IF(" & valoracomparar & "=0,0,RANK(" & valoracomparar & ",(" & _
+    rangojerarquia & "),1))"
+'    MsgBox "=IF(" & valoracomparar & "=0,""No cotiza"",RANK(" & _
+        valoracomparar & ",(" & rangoparajerarquia & "),1))"
+' esta funca    ActiveCell.Formula = "=IF(" & valoracomparar & "=0,""No cotiza"",RANK(" & _
+        valoracomparar & ",(" & rangoparajerarquia & "),1))"
+'    MsgBox "=IF(RC[-4]=0,""No cotiza"",RANK(RC[-4],(" & rangoparajerarquia & "),1))"
+    
+    ActiveCell.FormulaR1C1 = "=IF(RC[-4]=0,""No cotiza"",RANK(RC[-4],(" & rangoparajerarquia & "),1))"
+    ActiveCell.Offset(0, 6).Select
+Next
+    
+
+End Sub
