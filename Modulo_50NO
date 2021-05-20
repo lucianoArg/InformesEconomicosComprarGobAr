@@ -1,0 +1,64 @@
+Sub PegaContarRenglonesConvenientes()
+'
+' test2 Macro
+' pega formula CONTAR.SI.CONJUNTO
+' =CONTAR.SI.CONJUNTO(J10:J62;">0";J10:J62;"<"&$H$4)&" RENGLONES CONVENIENTES"
+
+'
+' baja 3 rows y luego 55 rows. Tendria que bajar la cantidad total de renglones +2
+Dim CantRenglones As Integer
+Dim cantofertas As Integer
+Dim RecorreOfertas As Integer
+
+cantofertas = [H1].Value
+
+
+'Range("A10").Select
+'Selection.End(xlDown).Select
+' CantRenglones = ActiveCell.Row - 7 'le resto las 9 filas de los títulos y le sumo las dos filas que tiene que bajar para arrancar el rango
+CantRenglones = ActiveSheet.ListObjects("Table1").ListRows.Count + 2 'le sumo las dos filas que tiene que bajar para arrancar el rango
+
+
+' MsgBox CantRenglones
+Range("J7").Select
+For RecorreOfertas = 1 To cantofertas
+    With Selection.Font
+        .Color = -16776961
+        .Italic = True
+    End With
+
+    ActiveCell.FormulaR1C1 = _
+        "=COUNTIFS(R[3]C:R[" & CantRenglones & "]C,"">0"",R[3]C:R[" & CantRenglones & "]C,""<""&R4C8)&"" RENGLONES CONVENIENTES"""
+ActiveCell.Offset(0, 6).Select
+Next
+
+'    Range("P7").Select
+'    ActiveCell.FormulaR1C1 = _
+'        "=COUNTIFS(R[3]C:R[55]C,"">0"",R[3]C:R[55]C,""<""&R4C8)&"" RENGLONES CONVENIENTES"""
+'    Range("P7").Select
+'    ActiveCell.FormulaR1C1 = _
+'        "=COUNTIFS(R[3]C:R[55]C,"">0"",R[3]C:R[55]C,""<""&R4C8)&"" RENGLONES CONVENIENTE"""
+'    Range("P7").Select
+'    ActiveCell.FormulaR1C1 = _
+'        "=COUNTIFS(R[3]C:R[55]C,"">0"",R[3]C:R[55]C,""<""&R4C8)&"" RENGLONES CONVENIENTES"""
+'    Range("P7").Select
+
+End Sub
+
+Sub PegaFormDeReglonesConv()
+'
+' ESTA FORMULA NO ESTÁ TERMINADA, FALTA COPIAR TODO PARA ABAJO Y PINTAR DE ROJO O ALGO
+
+' Pega fo¡órumula en columna F que suma los renglones dentro del rango de tolerancia
+'
+Dim sumarenglonesconvenientes As String
+
+sumarenglonesconvenientes = "COUNTIFS(RC[4],"">0"",RC[4],""<""&R4C8)"
+'
+'cuento cantidad de oferentes
+'armo for next con cantidad de oferentes y voy iterando sobre la fórmula
+'ojo con los punto y coma después de cada oferente, menos en el último!
+    Range("F10").Select
+    ActiveCell.FormulaR1C1 = _
+        "=SUM(COUNTIFS(RC[4],"">0"",RC[4],""<""&R4C8),COUNTIFS(RC[10],"">0"",RC[10],""<""&R4C8))&"" RENGLONES CONVENIENTES"""
+End Sub
