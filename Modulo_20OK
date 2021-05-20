@@ -1,0 +1,208 @@
+Sub Formato1de2()
+'
+' PRIMERAS OPERACIONES SOBRE EL ARCHIVO
+
+'borro hoja Insumo... de la tarea anterior
+Workbooks(1).Sheets(1).Activate
+Application.DisplayAlerts = False
+    On Error Resume Next
+    Worksheets("Insumo para Inf Econ Preliminar").Delete
+    On Error GoTo 0
+    Application.DisplayAlerts = True
+
+' Pego info de Comprar no anda
+'   Tengo que ir al otro file que se llama "Cuadro_Comparativo_*.xlsx", hoja (1)
+'MsgBox "Abrir primero el libro con macros y luego Cuadro:Comparativo*.xlsx"
+Workbooks(2).Sheets(1).Copy Before:=Workbooks( _
+        1).Sheets(1)
+
+' cambio el nombre por las dudas
+    Workbooks(1).Sheets(1).Activate
+    ActiveSheet.Name = "Insumo para Inf Econ Preliminar"
+
+' achico el alto de las hojas
+    Cells.Select
+    Application.CutCopyMode = False
+    Selection.WrapText = False
+'fijo paneles
+    Range("C10").Select
+    ActiveWindow.FreezePanes = True
+'ancho de columnas
+    Columns("D:D").ColumnWidth = 31.5
+    Columns("E:E").ColumnWidth = 16.5
+'inserto cols ESTIMADO MENSUAL
+    Range("G9").Select
+    Selection.EntireColumn.Insert
+    Selection.EntireColumn.Insert
+    Range("G9").Select
+    ActiveCell.FormulaR1C1 = "ESTIMADO UNITARIO"
+    Range("H9").Select
+    ActiveCell.FormulaR1C1 = "ESTIMADO TOTAL POR RENGLÓN"
+    Range("H1:I5").Clear
+    
+'pinto de rojo y gris
+    Range("Table1[[#Headers],[ESTIMADO UNITARIO]]").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range("Table1[[#All],[ESTIMADO UNITARIO]:[ESTIMADO TOTAL POR RENGLÓN]]").Select
+    With Selection.Font
+        .Color = -16776961
+        .TintAndShade = 0
+    End With
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = -0.249977111117893
+        .PatternTintAndShade = 0
+    End With
+
+' agrego sumatoria en G y H NO PORQUE NO TIENE SENTIDO
+'    Selection.End(xlDown).Select
+'    ActiveSheet.ListObjects("Table1").ListColumns("ESTIMADO MENSUAL"). _
+'        TotalsCalculation = xlTotalsCalculationSum
+'    Range("Table1[[#Totals],[ESTIMADO SEMESTRAL]]").Select
+'    ActiveSheet.ListObjects("Table1").ListColumns("ESTIMADO SEMESTRAL"). _
+'        TotalsCalculation = xlTotalsCalculationSum
+
+'Pego cuadro de tolerancia
+    Range("H3").Select
+    ActiveCell.FormulaR1C1 = "TOLERANCIA"
+    Range("H4").Select
+    ActiveCell.FormulaR1C1 = "100%"
+    Range("H5").Select
+'   ActiveCell.FormulaR1C1 = "(O SEA, HASTA " & ([H4] - 1) * 100 & "% POR ARRIBA DE LO ESTIMADO)"
+'  debería decir: ="("&(H4 - 1)*100&"% arriba de lo esperado)"
+    ActiveCell.FormulaR1C1 = "(O SEA, HASTA 40% POR ARRIBA DE LO ESTIMADO)"
+    Range("H6").Select
+    ActiveCell.FormulaR1C1 = "(CAMBIAR LA TOLERANCIA EN H4!)"
+    Range("H3:H6").Select
+    Selection.Font.Italic = True
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Range("H3").Select
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    Range("H4").Select
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    Range("H5").Select
+    With Selection.Font
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = -0.249977111117893
+    End With
+    Range("H6").Select
+    With Selection.Font
+        .Color = -16776961
+        .TintAndShade = 0
+    End With
+    Range("H3:H6").Select
+    With Selection.Font
+        .Name = "Calibri"
+        .Size = 14
+'        .Strikethrough = False
+'        .Superscript = False
+'        .Subscript = False
+'        .OutlineFont = False
+'        .Shadow = False
+'        .Underline = xlUnderlineStyleNone
+'        .TintAndShade = 0
+'        .ThemeFont = xlThemeFontMinor
+    End With
+    Range("H4").Select
+    Selection.Style = "Énfasis2"
+    Range("H3").Select
+    With Selection.Font
+        .Color = -16776961
+        .TintAndShade = 0
+    End With
+    Range("H4").Select
+    Selection.Font.Size = 14
+' Pego semáforo
+    Range("J1:J5").Select
+    Selection.Copy
+    Range("J1").Select
+    ActiveSheet.Paste
+    Range("J1").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "Explicación de colores:"
+    Range("J2").Select
+    ActiveCell.FormulaR1C1 = "Mayor al % de tolerancia"
+    Range("J3").Select
+    ActiveCell.FormulaR1C1 = "Mayor a 100% y menor o igual al % de tolerancia"
+    Range("J4").Select
+    ActiveCell.FormulaR1C1 = "Entre 50 y 100% del precio estimado"
+    Range("J5").Select
+    ActiveCell.FormulaR1C1 = "Menor al 50% del precio estimado"
+    Range("J2").Select
+    Selection.Style = "Incorrecto"
+    Range("J3").Select
+    Selection.Style = "Neutral"
+    Range("J4").Select
+    Selection.Style = "Bueno"
+    Range("J5").Select
+    Selection.Style = "Texto de advertencia"
+    
+
+' CONVIERTE RENGLÓN Y ALTERNATIVA A NÚMERO
+Range("A7").Select
+ActiveCell.FormulaR1C1 = "1"
+Selection.Copy
+Range("Table1[[Renglón]:[Alternativa]]").Select
+Selection.PasteSpecial Paste:=xlPasteAll, Operation:=xlMultiply, _
+    SkipBlanks:=False, Transpose:=False
+Range("A7").Clear
+
+End Sub
