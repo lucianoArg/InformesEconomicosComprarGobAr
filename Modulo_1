@@ -1,0 +1,29 @@
+Sub Corrertodo()
+'10 Formatea hoja Insumo para Inf Econ Preliminar ESTO NO VA, CAMBIAR POR UNA QUE ABRA _
+EL ARCHIVO DE COMPRAR Y LO PEGUE EN ESTE BOOK?
+
+'20 Formato1de2 OK
+
+' STOP PARA CARGAR PLANILLA DE ESTIMADOS
+
+'30 Formato2de2 NO TERMINADA
+        'OK 1 insertar TRES columnas a la derecha de cada PRECIO UNITARIO de cada oferta, _
+            con nombre "% SOBRE ESTIMADO MENSUAL" y "Orden por renglón (horizontal!") en _
+            rojo letra blanca.
+        'OK 2 Pegar formula =J10/$G10 en el cuerpo de la columna.
+        'OK 3 copiar todos los formatos condicionales en las columnas "% _
+            SOBRE ESTIMADO UNITARIO" de las ofertas.
+        'OK 4 Achicar columnas "Cantidad ofertada", "Total por renglón", "Especificacion técnica".
+        'OK 5 HACER LOOP DE TODO ESTO PARA TODOS LOS OFERENTES
+
+'40 PegoJerarquiaRC
+        '5 Pegar fórmula=SI(J10=0;"No cotiza";JERARQUIA(J10;($J10;$P10;$V10;$AB10;$AH10;$AN10;$AT10;$AZ10;$BF10;$BL10;$BR10;$BX10;$CD10;$CJ10;$CP10;$CV10;$DB10;$DH10;$DN10);1)) _
+        moviendo 6 columnas desde J hasta la última columna de los oferentes)
+
+
+'50 PegaContarRenglonesConvenientes() OK
+'60 PegaFormDeReglonesConv NO TERMINADA
+'70 Generar Hoja("1") NO ESTÁ EMPEZADA
+'80 ReplicaHojas() OK
+
+End Sub
