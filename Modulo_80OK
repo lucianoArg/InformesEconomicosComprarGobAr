@@ -1,0 +1,94 @@
+Option Explicit
+
+Sub ReplicaHojas()
+'
+' ESTA MACRO ANDA OK! CAMBIAR NOMBREHOJA +2 SI BORRO LA HOJA NOTAS
+' Replica Hojas para cada oferente
+Dim nombrehoja As Integer
+Dim cantofertas As Integer
+Dim ColumnaNombreOferente As String
+Dim ColumnaPrecioUnitario As String
+
+'Application.ScreenUpdating = False
+
+Worksheets(1).Activate
+cantofertas = [H1].Value
+ColumnaNombreOferente = 7
+ColumnaPrecioUnitario = 8
+nombrehoja = 2
+
+For nombrehoja = 2 To cantofertas
+    
+    ColumnaNombreOferente = ColumnaNombreOferente + 6
+    ColumnaPrecioUnitario = ColumnaPrecioUnitario + 6
+    
+    ActiveWorkbook.Sheets.Add After:=ActiveWorkbook.Worksheets(ActiveWorkbook.Worksheets.Count)
+    ActiveSheet.Name = nombrehoja
+    ActiveWindow.Zoom = 130
+    Worksheets(3).Activate
+    Range("A1").CurrentRegion.Select
+    
+    Selection.Copy
+    Worksheets(nombrehoja + 2).Activate
+    ActiveSheet.Paste
+    Range("D3").Select
+    Selection.End(xlDown).Select
+    Range("C3:" & ActiveCell.Address).Select
+'    Range("D3").Activate
+'    Application.CutCopyMode = False
+    Selection.ClearContents
+    Range("B1").Select
+
+'   Pego la formula para traer el nombre del Oferente
+'   ActiveCell.FormulaR1C1 = "='Insumo para Inf Econ Preliminar'!R[7]C[13]"
+    ActiveCell.FormulaR1C1 = "='Insumo para Inf Econ Preliminar'!R[7]C[" & ColumnaNombreOferente & "]"
+    
+'   Range("B1:D1").Select
+    Range("C3").Select
+
+'    Pego la formula para traer la oferta por renglón
+'    ActiveCell.FormulaR1C1 = _
+        "=IF('Insumo para Inf Econ Preliminar'!R[7]C[12]="""","""",'Insumo para Inf Econ Preliminar'!R[7]C[12])"
+    ActiveCell.FormulaR1C1 = _
+        "=IF('Insumo para Inf Econ Preliminar'!R[7]C[" & ColumnaPrecioUnitario & "]="""","""",'Insumo para Inf Econ Preliminar'!R[7]C[" & ColumnaPrecioUnitario & "])"
+    Range("D3").Select
+
+'    Pego SI Conveniente o No conveniente
+'     ActiveCell.FormulaR1C1 = _
+        "=IF(RC[-1]="""",""No Cotiza"",IF('Insumo para Inf Econ Preliminar'!R[7]C[12]>'Insumo para Inf Econ Preliminar'!R4C8,""NO CONVENIENTE ECONÓMICAMENTE (+""&ABS(ROUND(('Insumo para Inf Econ Preliminar'!R[7]C[12]-1)*100,0))&"")"",""Conveniente Económicamente""))"
+    ActiveCell.FormulaR1C1 = _
+        "=IF(RC[-1]="""",""No Cotiza"",IF('Insumo para Inf Econ Preliminar'!R[7]C[" & ColumnaPrecioUnitario & "]>'Insumo para Inf Econ Preliminar'!R4C8,""NO CONVENIENTE ECONÓMICAMENTE (+""&ABS(ROUND(('Insumo para Inf Econ Preliminar'!R[7]C[" & ColumnaPrecioUnitario & "]-1)*100,0))&"")"",""Conveniente Económicamente""))"
+
+    Range("C3:D3").Select
+    Selection.Copy
+    Range("A3").Select
+    Selection.End(xlDown).Select
+    ActiveCell.Offset(0, 2).Select
+'    Range("C35").Select
+    Range(Selection, Selection.End(xlUp)).Select
+    ActiveSheet.Paste
+    
+' ancho de columnas
+    Cells.Select
+    Selection.Columns.AutoFit
+    
+' filtro solo los que cotizan
+    
+'    Columns("C:D").EntireColumn.AutoFit
+'    Range("A2:D2").Select
+'    Selection.AutoFilter
+'    ActiveSheet.Range("$A$2:$D$35").AutoFilter Field:=3, Criteria1:="<>" ESTO ESTÁ MAL, SOLO MARCA HASTA FILA 35!
+
+Next
+
+' filtro solo los que cotizan EN HOJA 1
+'Worksheets(3).Activate
+'Columns("C:D").EntireColumn.AutoFit
+'Range("A2:D2").Select
+'Selection.AutoFilter
+'ActiveSheet.Range("$A$2:$D$35").AutoFilter Field:=3, Criteria1:="<>"
+'[A1].Select
+
+'Application.ScreenUpdating = True
+
+End Sub
