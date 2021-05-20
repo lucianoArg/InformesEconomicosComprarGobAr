@@ -1,0 +1,133 @@
+Sub Formato2de2()
+
+' ESTE FORMATO VA PARA TODOS LOS OFERENTES!
+
+Dim cantofertas As Byte
+Dim RecorreOfertas As Integer
+Dim rangoparajerarquia As String
+Dim i As Integer
+
+' pego cantidad de oferentes en H1
+Range("H1").Select '
+ActiveCell.Formula = "=COUNTA(8:8)-1"
+ActiveCell.HorizontalAlignment = xlCenter
+[G1] = "Oferentes:"
+[G1].HorizontalAlignment = xlRight
+
+'Guardo cantidad de oferentes para recorrer la hoja
+cantofertas = [H1].Value
+
+Range("L9").Select
+
+For i = 1 To cantofertas
+    
+    ' agrego 1 columnas para "% sobre estimado TOTAL"
+    Selection.EntireColumn.Insert
+    
+    ' Pego títulos
+    ActiveCell.Select
+    ActiveCell.FormulaR1C1 = "% SOBRE ESTIMADO TOTAL"
+        With Selection.Interior
+            .Pattern = xlSolid
+            .PatternColorIndex = xlAutomatic
+            .ThemeColor = xlThemeColorAccent2
+            .TintAndShade = 0
+            .PatternTintAndShade = 0
+        End With
+        With Selection.Font
+            .ThemeColor = xlThemeColorDark1
+            .TintAndShade = 0
+            .Bold = True
+        End With
+        
+    ' Pego formula =L10/$G10 en % SOBRE ESTIMADO TOTAL
+    ActiveCell.Offset(1, 0).Select
+    ActiveCell.FormulaR1C1 = "=RC[-1]/RC8"
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Style = "Percent"
+    Selection.NumberFormat = "0%"
+            
+' Pego formato Condicional del Semáforo en tablas
+    Range(Selection, Selection.End(xlDown)).Select
+           
+    Dim rg As Range
+    Dim ArribaTolerancia As FormatCondition
+    Dim entre100yTolerancia As FormatCondition
+    Dim menor50 As FormatCondition
+    Dim entre50y100 As FormatCondition
+    Dim nocotiza As FormatCondition
+    Set rg = Selection
+    
+    'clear any existing conditional formatting
+    rg.FormatConditions.Delete
+    
+    'define the rule for 3 conditional format
+    Set ArribaTolerancia = rg.FormatConditions.Add(xlCellValue, xlGreater, "=$H$4")
+    Set nocotiza = rg.FormatConditions.Add(xlCellValue, xlEqual, "=0")
+    Set menor50 = rg.FormatConditions.Add(xlCellValue, xlLessEqual, "=0,5")
+    Set entre100yTolerancia = rg.FormatConditions.Add(xlCellValue, Operator:=xlBetween, Formula1:="=1,0001", Formula2:="=$H$4")
+    Set entre50y100 = rg.FormatConditions.Add(xlCellValue, Operator:=xlBetween, Formula1:="=0,5", Formula2:="=1")
+    
+    
+    'define el formato de color para cada Formato Condicional
+    With ArribaTolerancia
+    .Interior.Color = RGB(255, 204, 204)
+    .Font.Color = RGB(102, 0, 0)
+    End With
+    
+    With nocotiza
+    .Interior.Color = RGB(153, 153, 153)
+    .Font.Color = RGB(153, 153, 153)
+    End With
+    
+    With menor50
+    .Interior.Color = RGB(255, 255, 255)
+    .Font.Color = RGB(255, 51, 51)
+    End With
+    
+    With entre100yTolerancia
+    .Interior.Color = RGB(255, 255, 153)
+    .Font.Color = RGB(102, 51, 0)
+    End With
+    
+    With entre50y100
+    .Interior.Color = RGB(204, 255, 204)
+    .Font.Color = RGB(51, 102, 0)
+    End With
+
+' Achico columnas Precio Unitario, Cantidad Ofertada y Descr. Técnica
+ActiveCell.Offset(0, -3).Resize(1, 1).ColumnWidth = 0.3
+ActiveCell.Offset(0, -2).Resize(1, 1).ColumnWidth = 0.3
+ActiveCell.Offset(0, 1).Resize(1, 1).ColumnWidth = 0.3
+
+
+' pego titulo "orden por renglón (horizontal)"
+
+    ActiveCell.Offset(-1, 2).Select
+    ActiveCell.FormulaR1C1 = "Orden por renglón (horizontal!)"
+        With Selection.Interior
+            .Pattern = xlSolid
+            .PatternColorIndex = xlAutomatic
+            .ThemeColor = xlThemeColorAccent2
+            .TintAndShade = 0
+            .PatternTintAndShade = 0
+        End With
+        With Selection.Font
+            .ThemeColor = xlThemeColorDark1
+            .TintAndShade = 0
+            .Bold = True
+        End With
+    ActiveCell.ColumnWidth = 8.33
+        
+' me muevo hasta el próximo oferente
+ActiveCell.Offset(0, 4).Select
+
+Next
+
+'muevo semáforo
+Range("K1:K5").Select
+Selection.Cut
+Range("J1").Select
+ActiveSheet.Paste
+
+End Sub
